@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base:BaseCustomTabsContainer
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:TestCustomContentView"
+             xmlns:views="clr-namespace:TestCustomContentView.ContentViews"
+             xmlns:selectors="clr-namespace:TestCustomContentView.DataTemplateSelectors"
+             xmlns:bindableLayouts="clr-namespace:TestCustomContentView.BindableLayouts"
+             x:Class="TestCustomContentView.CustomTabsContainer"
+             x:Name="TabbedPageReference">
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="FirstContentView" >
+                <views:FirstContentView BindingContext="{Binding BindingContext.FirstContentViewViewModel,  Source={x:Reference TabbedPageReference}}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="SecondContentView">
+                <views:SecondContentView BindingContext="{Binding BindingContext.SecondContentViewViewModel,  Source={x:Reference TabbedPageReference}}"/>
+            </DataTemplate>
+
+            <selectors:CreateNewTemplateSelector x:Key="CreateNewItemTemplateSelector"
+                                                  FirstTemplate="{StaticResource FirstContentView}"
+                                                  SecondTemplate="{StaticResource SecondContentView}" />
+
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <CollectionView ItemsSource="{Binding Pages}"
+                            SelectionMode="Single"
+                            HorizontalOptions="FillAndExpand"
+                            SelectionChangedCommand="{Binding ItemSelectedCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference MyCollectionView}}"
+                            x:Name="MyCollectionView"
+                            >
+                
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Horizontal" 
+                                     HorizontalItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Label Text="{Binding Title}" HorizontalOptions="Start"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid Grid.Row="1"
+                  x:Name="TabControl"
+                  bindableLayouts:CustomBindableLayout.ItemsSource="{Binding Pages}"
+                  bindableLayouts:CustomBindableLayout.ItemTemplateSelector="{StaticResource CreateNewItemTemplateSelector}"
+                  bindableLayouts:CustomBindableLayout.SelectedItem="{Binding  ItemSelected}">
+                
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</base:BaseCustomTabsContainer>

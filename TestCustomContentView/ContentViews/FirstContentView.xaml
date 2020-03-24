@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestCustomContentView.ContentViews.FirstContentView">
+    <ContentView.Content>
+        <Grid HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center">
+                 <Label Text="First" />
+                 <Button Text="Click me"
+                         Command="{Binding ButtonCommand}"/>
+            </StackLayout>
+           
+
+        </Grid>
+    </ContentView.Content>
+</ContentView>
